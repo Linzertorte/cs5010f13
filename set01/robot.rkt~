@@ -1,0 +1,5 @@
+
+;robot-at : PosInt PosInt -> Robot
+;GIVEN: a set of (x,y) coordinates
+;RETURNS: a robot with its center at those coordinates, facing north
+;(up).
