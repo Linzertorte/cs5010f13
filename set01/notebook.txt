@@ -1,4 +1,7 @@
 Date  Who       Start Stop  Interruptions Question TimeOnTask    Comments
 9/16  ZL	2:24  3:14		  Q1	   	50	 Analysis of Q1, first draft
 ----------------------------------committing to git 9/16 3:16----------------------------------------------------------
+9/16  ZL        3:51  5:03                 Q2                     Data definition for Q2, initial eeffort
+
+----------------------------------committing to git 9/16 5:03----------------------------------------------------------
 
