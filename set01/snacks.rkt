@@ -1,6 +1,14 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname snacks) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ())))
+(require "extras.rkt")
+(provide
+ load-machine
+ machine-next-state
+ machine-chocolates
+ machine-carrots
+ machine-bank)
+
 
 (define PRICE-OF-CHOCOLATE 175)
 (define PRICE-OF-CARROT 70)
