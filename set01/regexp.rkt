@@ -21,13 +21,13 @@
 ;
 ;(1) initial state
 ;(2) intermediate state
-;(o) accepting state
+;(o) final state
 ;(x) error state
 
 ;A State is one of
 ;"initial"  
 ;"intermediate" 
-;"accepting"
+;"final"
 ;"error"
 ;Interp:
 ;The machine is in one of the state depicted in the state-transition diagram
@@ -37,7 +37,7 @@
 ;  (cond
 ;    ([string=? state "initial"] ...)
 ;    ([string=? state "intermediate"] ...)
-;    ([string=? state "accepting"] ...)
+;    ([string=? state "final"] ...)
 ;    ([string=? state "error"] ...)
 ;   )
 ;  )
@@ -61,7 +61,7 @@
   (cond
     ([string=? state "initial"] (from-initial-state mykev))
     ([string=? state "intermediate"] (from-intermediate-state mykev))
-    ([string=? state "accepting"] "error")
+    ([string=? state "final"] "error")
     ([string=? state "error"] "error") ; once in error, always in error
    )
 )
@@ -82,7 +82,7 @@
 (define (from-intermediate-state mykev)
   (cond
   ([string=? mykev "d"] "intermediate")
-  ([string=? mykev "e"] "accepting")
+  ([string=? mykev "e"] "final")
   (else "error")
   )
 
@@ -92,11 +92,11 @@
 
 
 
-;accepting-state? : State -> Boolean
+;final-state? : State -> Boolean
 ;GIVEN: a state of the machine
-;RETURNS: true iff the given state is a final (accepting) state
+;RETURNS: true iff the given state is a final (final) state
 (define (final-state? state)
-	(string=? state "accepting"))
+	(string=? state "final"))
 
 
 ;
