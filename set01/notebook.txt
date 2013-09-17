@@ -15,4 +15,5 @@ Date  Who       Start Stop  Interruptions Question TimeOnTask    Comments
 9/16 ZL		9:50  10:21               Q1            31       Detect the wall, make the robot inside the boundary
 
 ----------------------------------committing to git 9/16 10:21----------------------------------------------------------
-
+9/16 ZL 	11:15 11:49		  Q3		34	  working on Q3, seems very easy
+----------------------------------committing to git 9/16 11:49----------------------------------------------------------
