@@ -1,10 +1,8 @@
 ;; The first three lines of this file were inserted by DrRacket. They record metadata
 ;; about the language level of this file in a form that our tools can easily process.
 #reader(lib "htdp-beginner-reader.ss" "lang")((modname robot) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f ())))
+(require  "extras.rkt")
 (require 2htdp/image)
-(require
-  "extras.rkt")
-
 (provide
   initial-robot
   robot-left 
@@ -18,7 +16,10 @@
 (define ROBOT-RADIUS 15)
 (define CANVAS-HEIGHT 200)
 (define CANVAS-WIDTH 400)
-
+(define MIN-X ROBOT-RADIUS)
+(define MIN-Y ROBOT-RADIUS)
+(define MAX-X (- CANVAS-WIDTH ROBOT-RADIUS))
+(define MAX-Y (- CANVAS-HEIGHT ROBOT-RADIUS))
 
 ; An Orient is one of
 ; -- "north", the robot is facing north
@@ -50,7 +51,7 @@
 ;   (robot-ort r)
 ;   )
 ;  )
-(define ROBOT-IMAGE  (circle 15 "solid" "black"))
+
 (define scene (empty-scene CANVAS-WIDTH CANVAS-HEIGHT))
 
 ;initial-robot : PosInt PosInt -> Robot
@@ -59,7 +60,7 @@
 ;(up).
 ; Design strategy: domain knowledge
 (define (initial-robot x y)
-	(make-robot x y "north"))
+	(make-robot  (legal-x x) (legal-y y) "north"))
 
 
 
@@ -119,10 +120,6 @@
 (define (robot-west? rbt)
 	(string=? (robot-ort rbt) "west"))
 
-
-
-
-
 ;robot-forward : Robot PosInt -> Robot
 ;GIVEN: a robot and a distance
 ;RETURNS: a robot like the given one, but moved forward by the
@@ -142,16 +139,55 @@
   (cond
   [(string=? (robot-ort rbt) "north") (robot-x rbt)]
   ; x stays unchanged when facing north or south
-  [(string=? (robot-ort rbt) "east") (+ (robot-x rbt) dist)]
+  [(string=? (robot-ort rbt) "east") (legal-x (+ (robot-x rbt) dist))]
   [(string=? (robot-ort rbt) "south") (robot-x rbt)]
-  [(string=? (robot-ort rbt) "west") (- (robot-x rbt) dist)]
+  [(string=? (robot-ort rbt) "west") (legal-x (- (robot-x rbt) dist))]
 ))
 
 (define (forward-y rbt dist)
   (cond
-  [(string=? (robot-ort rbt) "north") (- (robot-y rbt) dist)]
+  [(string=? (robot-ort rbt) "north") (legal-y (- (robot-y rbt) dist))]
   ; y stays unchanged when facing east or west
   [(string=? (robot-ort rbt) "east") (robot-y rbt)]
-  [(string=? (robot-ort rbt) "south") (+ (robot-y rbt) dist)]
+  [(string=? (robot-ort rbt) "south") (legal-y (+ (robot-y rbt) dist))]
   [(string=? (robot-ort rbt) "west") (robot-y rbt)]
 ))
+
+
+;legal-x: PosInt->PosIn
+;legal-y: PosInt->PosIn
+;GIVEN, a x,y coordinate of the center of the robot
+;RETURNS, the acutal x,y coodrinate that ensures the robot does not go into the wall.
+;Example
+; (legal-x 0) => 15
+(define (legal-x x)
+  (cond
+  [(< x MIN-X) MIN-X]
+  [(and (<= x MAX-X) (>= x MIN-X)) x]
+  [(> x MAX-X) MAX-X]
+ ))
+
+(define (legal-y y)
+  (cond
+  [(< y MIN-Y) MIN-Y]
+  [(and (<= y MAX-X) (>= y MIN-Y)) y]
+  [(> y MAX-Y) MAX-Y]
+ ))
+
+(define head (triangle 5 "solid" "red"))
+(define body (circle 15 "solid" "black"))
+
+(define (robot-image rbt)  
+  (cond
+   [(robot-north? rbt) (above head body )]
+  [(robot-south? rbt) (above body head)]
+  [(robot-east? rbt) (beside body head)]
+  [(robot-west? rbt) (beside head body)]
+   )
+  )
+
+
+
+(define (render rbt)
+  (place-image (robot-image rbt) (robot-x rbt) (robot-y rbt) scene)
+  )
