@@ -17,3 +17,9 @@ pitchersAfterMove pitchers move =
           src_capacity = capacity src_pitcher
           tgt_capacity = capacity tgt_pitcher
           delta = min src_contents (tgt_capacity - tgt_contents)
+
+pitchersFromList :: [Int] -> [Pitcher]
+pitchersFromList (x:xs) = [Pitcher x x] ++ (map (Pitcher 0) xs) 
+
+pitchersAfterMoves :: [Pitcher] -> [Move] -> [Pitcher]
+pitchersAfterMoves pitchers moves = foldl pitchersAfterMove pitchers moves
